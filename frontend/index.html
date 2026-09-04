@@ -1,14 +1,111 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
   <head>
-    <title>RiskLens-AI</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiskLens-AI — AI Fraud Detection</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <label for="transaction-select">Select Transaction:</label>
-    <select id="transaction-select"></select>
-    <div id="transaction-details"></div>
-    <button id="analyze-btn">Analyze Risk</button>
-    <div id="risk-result"></div>
+    <div class="app-shell">
+      <!-- Header Section -->
+      <header class="app-header">
+        <div class="header-content">
+          <div class="logo-group">
+            <div class="logo-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="app-title">RiskLens-AI</h1>
+              <p class="app-subtitle">AI-Powered Transaction Risk Analysis</p>
+            </div>
+          </div>
+          <div class="header-badge">Live Risk Engine</div>
+        </div>
+      </header>
+
+      <!-- Main Dashboard Container -->
+      <main class="app-container">
+        <!-- Control Card: Transaction Selector -->
+        <section class="card control-card">
+          <div class="control-header">
+            <label for="transaction-select" class="control-label">Select Transaction</label>
+            <span class="control-hint">Choose a held-out test transaction to evaluate risk</span>
+          </div>
+          <div class="control-row">
+            <div class="select-wrapper">
+              <select id="transaction-select">
+                <option value="">Loading sample transactions...</option>
+              </select>
+              <div class="select-arrow">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+            <button id="analyze-btn" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <span>Analyze Risk</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Two-Column Main Grid -->
+        <div class="dashboard-grid">
+          <!-- Left Column: Transaction Details -->
+          <section class="card panel transaction-panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="20" height="14" x="2" y="5" rx="2"/>
+                  <line x1="2" x2="22" y1="10" y2="10"/>
+                </svg>
+                <h2>TRANSACTION</h2>
+              </div>
+              <span class="panel-tag">Input Data</span>
+            </div>
+            <div class="panel-body">
+              <div id="transaction-details">
+                <div class="empty-state">
+                  <p>Select a transaction above to view details.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Right Column: Risk Assessment -->
+          <section class="card panel risk-panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                <h2>RISK ASSESSMENT</h2>
+              </div>
+              <span class="panel-tag">Model Output</span>
+            </div>
+            <div class="panel-body">
+              <div id="risk-result">
+                <div class="empty-state">
+                  <p>Click <strong>Analyze Risk</strong> to trigger prediction and SHAP explanation.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <p>RiskLens-AI &bull; Razorpay Buildathon Demo &bull; Model Threshold: 35.9%</p>
+      </footer>
+    </div>
 
     <script src="script.js"></script>
   </body>
