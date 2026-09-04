@@ -53,9 +53,9 @@ DATA_BY_ID = DATA.set_index("transaction_id", drop=False)
 
 # Deterministic sample for the frontend/demo.
 # The same 20 transactions are returned every time.
-SAMPLE_IDS = sorted(
-    DATA["transaction_id"].sample(n=20, random_state=42).tolist()
-)
+SAMPLE_LEGIT_IDS = DATA[DATA["Class"] == 0]["transaction_id"].sample(n=10, random_state=42).tolist()
+SAMPLE_FRAUD_IDS = DATA[DATA["Class"] == 1]["transaction_id"].sample(n=10, random_state=42).tolist()
+SAMPLE_IDS = sorted(SAMPLE_LEGIT_IDS + SAMPLE_FRAUD_IDS)
 
 MIN_ID = int(DATA["transaction_id"].min())
 MAX_ID = int(DATA["transaction_id"].max())
