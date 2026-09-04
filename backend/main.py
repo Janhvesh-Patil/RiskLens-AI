@@ -97,7 +97,9 @@ def get_transaction(transaction_id: int):
     # reveal the ground truth before prediction.
     fields = ["transaction_id"] + RAW_FEATURE_ORDER
 
-    return row[fields].to_dict()
+    result = row[fields].to_dict()
+    result["transaction_id"] = int(transaction_id)  # <-- added: undo pandas' row-wide float upcast
+    return result
 
 
 @app.get("/predict/{transaction_id}")
