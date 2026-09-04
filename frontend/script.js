@@ -67,11 +67,38 @@ document.getElementById("analyze-btn").addEventListener("click", async () => {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const pred = await res.json();
 
+    const maxAbs = Math.max(...pred.top_features.map(f => Math.abs(f.shap_value)));
+
+    const shapRows = pred.top_features.map(f => {
+      const widthPct = (Math.abs(f.shap_value) / maxAbs) * 100;
+      return `
+        <div>
+          ${f.feature} —
+          <span style="display:inline-block; background:#888; height:10px; width:${widthPct}px;"></span>
+          ${f.shap_value} (${f.direction})
+        </div>
+      `;
+    }).join("");
+
+    const probPct = pred.fraud_probability * 100;
+    const threshPct = pred.threshold * 100;
+
+    const meterHtml = `
+      <div style="position:relative; width:300px; height:20px; background:#ddd;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:${probPct}%; background:#888;"></div>
+        <div style="position:absolute; left:${threshPct}%; top:0; height:100%; width:2px; background:red;"></div>
+      </div>
+      <p>${probPct.toFixed(2)}% probability vs ${threshPct.toFixed(1)}% threshold</p>
+    `;
+
     result.innerHTML = `
       <p>Prediction: ${pred.prediction.toUpperCase()}</p>
       <p>Fraud probability: ${pred.fraud_probability}</p>
       <p>Threshold: ${pred.threshold}</p>
       <p>Actual class: ${pred.actual_class === 1 ? "FRAUD" : "LEGIT"}</p>
+      ${meterHtml}
+      <p>Why:</p>
+      ${shapRows}
     `;
   } catch (err) {
     result.innerHTML = "Failed to analyze transaction.";
