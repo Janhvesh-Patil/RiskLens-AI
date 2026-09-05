@@ -20,20 +20,20 @@
             </div>
             <div>
               <h1 class="app-title">RiskLens-AI</h1>
-              <p class="app-subtitle">AI-Powered Transaction Risk Analysis</p>
+              <p class="app-subtitle">Transaction Risk Analysis</p>
             </div>
           </div>
-          <div class="header-badge">Live Risk Engine</div>
+
         </div>
       </header>
 
       <!-- Main Dashboard Container -->
       <main class="app-container">
-        <!-- Control Card: Transaction Selector -->
+        <!-- Control Card: Transaction Selector & Search -->
         <section class="card control-card">
           <div class="control-header">
-            <label for="transaction-select" class="control-label">Select Transaction</label>
-            <span class="control-hint">Choose a held-out test transaction to evaluate risk</span>
+            <label for="transaction-select" class="control-label">Select or Search Transaction</label>
+            <span id="range-hint" class="control-hint">Choose a sample transaction or enter an ID</span>
           </div>
           <div class="control-row">
             <div class="select-wrapper">
@@ -46,6 +46,13 @@
                 </svg>
               </div>
             </div>
+
+            <div class="divider-text">OR</div>
+
+            <form id="search-form" class="search-wrapper" onsubmit="return false;">
+              <input type="number" id="transaction-search-input" class="search-input" placeholder="Enter ID..." min="0" autocomplete="off" />
+            </form>
+
             <button id="analyze-btn" class="btn-primary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/>
@@ -73,7 +80,7 @@
             <div class="panel-body">
               <div id="transaction-details">
                 <div class="empty-state">
-                  <p>Select a transaction above to view details.</p>
+                  <p>Select or search a transaction above to view details.</p>
                 </div>
               </div>
             </div>
@@ -88,7 +95,7 @@
                 </svg>
                 <h2>RISK ASSESSMENT</h2>
               </div>
-              <span class="panel-tag">Model Output</span>
+              <span class="panel-tag">Risk Result</span>
             </div>
             <div class="panel-body">
               <div id="risk-result">
@@ -100,11 +107,6 @@
           </section>
         </div>
       </main>
-
-      <!-- App Footer -->
-      <footer class="app-footer">
-        <p>RiskLens-AI &bull; Razorpay Buildathon Demo &bull; Model Threshold: 35.9%</p>
-      </footer>
     </div>
 
     <script src="script.js"></script>
