@@ -1,14 +1,12 @@
 # RiskLens-AI
 
-**Razorpay AI Buildathon — AI Risk Manager track**
-
-A transaction-level fraud classifier with SHAP-based explainability, served through a FastAPI backend and a light, judge-facing web dashboard.
+A transaction-level fraud classifier with SHAP-based explainability, served through a FastAPI backend and a light web dashboard.
 
 ## What this is (and isn't)
 
-RiskLens-AI demonstrates the _decisioning and evaluation methodology_ a production fraud system needs — honest held-out metrics, a cost-aware decision threshold, and per-transaction explainability — not a deployable Razorpay production model. Real feature engineering from raw payment data is proprietary infrastructure, out of scope for a public dataset project.
+RiskLens-AI demonstrates the _decisioning and evaluation methodology_ a production fraud system needs — honest held-out metrics, a cost-aware decision threshold, and per-transaction explainability — not a deployable production model. Real feature engineering from raw payment data is proprietary infrastructure, out of scope for a public dataset project.
 
-The dataset (`mlg-ulb/creditcardfraud` on Kaggle) contains real, PCA-anonymized European credit card transactions (`V1`–`V28`), plus `Time` and `Amount` in **euros** — not rupees, despite the demo's Razorpay-adjacent styling. Amounts are shown in `€` throughout to avoid misrepresenting the source data.
+The dataset (`mlg-ulb/creditcardfraud` on Kaggle) contains real, PCA-anonymized European credit card transactions (`V1`–`V28`), plus `Time` and `Amount` in **euros**. Amounts are shown in `€` throughout to match the source data.
 
 Because `V1`–`V28` are opaque PCA components, there is no way for a user to meaningfully type them into a form. The UI instead lets a user pick or search a real transaction from the held-out test set and see the model's live decision on it.
 
@@ -84,7 +82,7 @@ I'm documenting these instead of polishing them away, because catching them was 
 - **`pandas` was silently upcasting `transaction_id` to a float** (`936` turning into `936.0`) whenever a single mixed-dtype row was pulled with `.loc[id]` and dumped via `.to_dict()`. Swagger's rendered response view showed a clean `936` and I almost signed off on it — the bug only showed up once I bypassed the UI and hit the endpoint with a raw HTTP call and read the actual JSON bytes. Fixed by explicitly re-casting the ID field after the dict conversion, and it taught me not to trust a pretty-printed response panel over the wire format.
 - **I misjudged the test set's fraud count by eyeballing a filtered spreadsheet** — saw what looked like 4 fraud rows and almost built the demo's sample selection around that number. It didn't survive contact with my own earlier metrics: a recall of 0.779 is mathematically impossible with only 4 actual fraud cases in the denominator. Running `value_counts()` instead of scrolling a filtered view gave the real number — 95 — and was the reminder I needed that a spreadsheet filter narrows what you _see_, not what exists.
 - **A UI caption was displaying a hardcoded `"35.9%"` string instead of the live threshold value** coming back from the API. It looked completely correct on screen because the two numbers happened to match — the bug was only visible by reading the actual line of code, not by looking at the rendered page.
-- **Currency mismatch** — the dataset is European, and my first UI pass defaulted to `₹` with Indian-style digit grouping applied on top of Euro amounts. Caught before it shipped by remembering the actual provenance of the dataset instead of leaning on the demo's Razorpay-adjacent branding.
+- **Currency mismatch** — the dataset is European, and my first UI pass defaulted to `₹` with Indian-style digit grouping applied on top of Euro amounts, purely out of habit. Caught before it shipped by remembering the actual provenance of the dataset rather than assuming the currency I'm used to.
 
 ## Known limitations
 
